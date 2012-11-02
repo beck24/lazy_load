@@ -3,10 +3,8 @@
 elgg_register_event_handler('init', 'system', 'lazy_load_init');
 
 function lazy_load_init() {
-  
-  // register our html parser library
-  elgg_register_library('lazy_load', elgg_get_plugins_path() . 'lazy_load/lib/simple_html_dom.php');
-  elgg_register_library('ganon', elgg_get_plugins_path() . 'lazy_load/lib/ganon.php');
+
+  elgg_extend_view('css/elgg', 'lazy_load/css');
   
   // register our js library
   $js = elgg_get_simplecache_url('js', 'lazy_load/js');
@@ -24,7 +22,7 @@ function lazy_load_defaultpage($hook, $type, $return, $params) {
   
   preg_match_all('/<img[^>]+>/i',$return, $imgs);
   
-  $grey = elgg_get_site_url() . 'mod/lazy_load/graphics/grey.gif';
+  $placeholder = elgg_get_site_url() . '_graphics/spacer.gif';
   
   foreach ($imgs[0] as $img) {
 	$pattern = '/([a-zA-Z\-]+)\s*=\\s*("[^"]*"|\'[^\']*\'|[^"\'\\s>]*)/';
@@ -47,7 +45,7 @@ function lazy_load_defaultpage($hook, $type, $return, $params) {
 	  $vars['data-original'] = $vars['src'];
 	}
 	
-	$vars['src'] = $grey;
+	$vars['src'] = $placeholder;
 	
 	if (!empty($vars['class'])) {
 	  // no class was set originally, we need to set it ourselves
@@ -59,52 +57,9 @@ function lazy_load_defaultpage($hook, $type, $return, $params) {
 	
 	
 	$replacement_img = elgg_view('output/img', $vars);
+	$replacement_img .= "<noscript>$img</noscript>";
 	$return = str_replace($img, $replacement_img, $return);
   }
   
   return $return;
-  /*
-  elgg_load_library('ganon');
-  
-  $html = str_get_dom($return);
-  
-  foreach ($html('img') as $img) {
-	echo $img->src . '<br><br>';
-  }
-  
-  exit; */
-  /*
-  elgg_load_library('lazy_load');
-  
-  $placeholder = elgg_get_site_url() . 'mod/lazy_load/graphics/grey.gif';
-  
-  // parse the html
-  $html = str_get_html($return);
-  
-  // get the number of images
-  $num = count($html->find('img'));
-  
-  // add our class to all images
-  // and move the src to data-original
-  for ($i=0; $i<$num; $i++) {
-	$class = $html->find('img', $i)->class;
-	
-	// set our new class
-	$newclass = 'lazy-load';
-	if ($class) {
-	  $newclass = $class . ' lazy-load';
-	}
-	
-	$html->find('img', $i)->class = $newclass;
-	
-	
-	// set our sources
-	$src = $html->find('img', $i)->src;
-	$html->find('img', $i)->src = $placeholder;
-	$html->find('img', $i)->setAttribute('data-original', $src);
-  }
-
-  return $html;
-   * *
-   */
 }

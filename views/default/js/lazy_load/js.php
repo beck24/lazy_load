@@ -16,7 +16,7 @@ elgg.provide('elgg.lazy_load');
 
 elgg.lazy_load.init = function() {
   
-  $("img.lazy-load").lazyload({
+  $("img.lazy-load").show().lazyload({
 	  threshold : 200,
 	  effect : "fadeIn",
 	  skip_invisible : false,
