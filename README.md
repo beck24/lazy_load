@@ -18,3 +18,11 @@ Instructions
 
 Install plugin to mods/lazy_load
 Enable plugin from the administration plugin page
+
+
+
+Note
+=====
+
+This lazy loading library requires jquery 1.6.4, which is included in this plugin (standard for elgg 1.8)
+There is no guarantee that this will be compatible with other plugins for 1.7
