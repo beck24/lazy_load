@@ -1,28 +1,26 @@
 <?php
 
-elgg_register_event_handler('init', 'system', 'lazy_load_init');
+register_elgg_event_handler('init', 'system', 'lazy_load_init');
 
 function lazy_load_init() {
 
-  elgg_extend_view('css/elgg', 'lazy_load/css');
+  elgg_extend_view('metatags', 'lazy_load/metatags');
+  elgg_extend_view('footer/analytics', 'lazy_load/analytics');
   
-  // register our js library
-  $js = elgg_get_simplecache_url('js', 'lazy_load/js');
-  elgg_register_simplecache_view('js/lazy_load/js');
-  elgg_register_js('lazy_load.js', $js);
-  
-  //use lazy load on all pages
-  elgg_load_js('lazy_load.js');
-  
-  elgg_register_plugin_hook_handler('view', 'page/default', 'lazy_load_defaultpage');
+  register_plugin_hook('display', 'view', 'lazy_load_defaultpage');
 }
 
 
 function lazy_load_defaultpage($hook, $type, $return, $params) {
+  global $CONFIG;
+  
+  if ($params['view'] != 'pageshells/pageshell') {
+	return $return;
+  }
   
   preg_match_all('/<img[^>]+>/i',$return, $imgs);
   
-  $placeholder = elgg_get_site_url() . '_graphics/spacer.gif';
+  $placeholder = $CONFIG->wwwroot . '_graphics/spacer.gif';
   
   foreach ($imgs[0] as $img) {
 	$pattern = '/([a-zA-Z\-]+)\s*=\\s*("[^"]*"|\'[^\']*\'|[^"\'\\s>]*)/';
@@ -55,8 +53,19 @@ function lazy_load_defaultpage($hook, $type, $return, $params) {
 	  $vars['class'] = 'lazy-load';
 	}
 	
+	$attributes = '';
+	$count = 0;
+	foreach ($vars as $name => $value) {
+		if ($count != 0) {
+			$attributes .= ' ';
+		}
+		
+		$attributes .= $name . '="' . $value . '"';
+		
+		$count++;
+	}
 	
-	$replacement_img = elgg_view('output/img', $vars);
+	$replacement_img = "<img $attributes>";
 	$replacement_img .= "<noscript>$img</noscript>";
 	$return = str_replace($img, $replacement_img, $return);
   }
