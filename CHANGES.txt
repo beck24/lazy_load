@@ -2,6 +2,9 @@
 
 x.x (mm/dd/yyyy):
 
+1.2 (11/27/2012):
+ - more aggressive checks for images in inline js
+
 1.1 (11/19/2012):
  - fixes potential for broken javascript if inline js contains image markup
 
