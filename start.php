@@ -22,15 +22,26 @@ function lazy_load_defaultpage($hook, $type, $return, $params) {
   
   preg_match_all('/<img[^>]+>/i',$return, $imgs);
   
+  $regex = "/\<script([\s\S]*?)\<\/script\>/i";
+  preg_match_all($regex, $return, $scripts);
+  // stringify the scripts
+
+  $script_string = '';
+  if (!empty($scripts[0])) {
+	foreach ($scripts[0] as $script) {
+	  $script_string .= $script;
+	}
+  }
+
   $placeholder = elgg_get_site_url() . '_graphics/spacer.gif';
   
   foreach ($imgs[0] as $img) {
 	
-	if (stristr($img, '\"') || stristr($img, '\/')) {
-	  // there are escaped characters - this image might be being used in inline js
+	if (strpos($script_string, $img) !== false) {
+	  // this image might be being used in inline js
 	  // so we'll just leave it alone
 	  continue;
-	}
+	}	
 	
 	$pattern = '/([a-zA-Z\-]+)\s*=\\s*("[^"]*"|\'[^\']*\'|[^"\'\\s>]*)/';
 	preg_match_all($pattern, $img, $attributes, PREG_SET_ORDER);
