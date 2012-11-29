@@ -22,7 +22,7 @@ function lazy_load_defaultpage($hook, $type, $return, $params) {
   
   preg_match_all('/<img[^>]+>/i',$return, $imgs);
   
-  $regex = "/\<script([\s\S]*?)\<\/script\>/i";
+  $regex = "/<script(.*)<\/script>/msU";
   preg_match_all($regex, $return, $scripts);
   // stringify the scripts
 
