@@ -22,6 +22,7 @@ function lazy_load_defaultpage($hook, $type, $return, $params) {
   
   preg_match_all('/<img[^>]+>/i',$return, $imgs);
   
+  // Thanks to Viorel Tabara for the regex!
   $regex = "/<script(.*)<\/script>/msU";
   preg_match_all($regex, $return, $scripts);
   // stringify the scripts
