@@ -23,6 +23,13 @@ elgg.lazy_load.init = function() {
 	  failure_limit: 10
   });
 
+  // trigger the scroll event to force some browsers to detect images in the viewport
+  $(window).bind('resize', function() { 
+	$(this).trigger('scroll'); 
+  });
+  
+  // trigger scroll on pageload after small delay (to make sure everything is bound properly)
+  setTimeout(function() {$(window).trigger("scroll")}, 100);
 }
 
 elgg.register_hook_handler('init', 'system', elgg.lazy_load.init);
