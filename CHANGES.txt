@@ -2,6 +2,9 @@
 
 x.x (mm/dd/yyyy):
 
+1.4 ():
+ - updates lazyload script to 1.8.4
+
 1.3 (01/30/2013):
  - fixes issue where some images didn't load on pageload/resize
  - triggers the scroll event on pageload and window resize
