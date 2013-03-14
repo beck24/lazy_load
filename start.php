@@ -6,15 +6,21 @@ function lazy_load_init() {
 
   elgg_extend_view('css/elgg', 'lazy_load/css');
   
-  // register our js library
-  $js = elgg_get_simplecache_url('js', 'lazy_load/js');
-  elgg_register_simplecache_view('js/lazy_load/js');
-  elgg_register_js('lazy_load.js', $js);
+  require_once dirname(__FILE__) . '/vendors/Mobile_Detect.php';
   
-  //use lazy load on all pages
-  elgg_load_js('lazy_load.js');
+  $mobile = new Mobile_Detect();
   
-  elgg_register_plugin_hook_handler('view', 'page/default', 'lazy_load_defaultpage');
+  if (!$mobile->is('iOS')) {
+	// register our js library
+	$js = elgg_get_simplecache_url('js', 'lazy_load/js');
+	elgg_register_simplecache_view('js/lazy_load/js');
+	elgg_register_js('lazy_load.js', $js);
+  
+	//use lazy load on all pages
+	elgg_load_js('lazy_load.js');
+  
+	elgg_register_plugin_hook_handler('view', 'page/default', 'lazy_load_defaultpage');
+  }
 }
 
 
