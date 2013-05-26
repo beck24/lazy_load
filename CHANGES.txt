@@ -5,6 +5,7 @@ x.x (mm/dd/yyyy):
 1.5 (05/25/2013):
  - adds plugin settings for custom jquery selectors
  - fixes for side-by-side columns, internally scrolling elements
+ - adds support for lazy-load of ajax loaded content
 
 1.4 (03/14/2013):
  - updates lazyload script to 1.8.4

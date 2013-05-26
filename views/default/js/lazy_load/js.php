@@ -72,6 +72,10 @@ elgg.lazy_load.init = function() {
   }
   ?>
   
+  $(document).ajaxComplete(function(e) {
+    setTimeout(function() {$(window).trigger("scroll")}, 100); //trigging the window scroll event forces $.lazyload to look for new images to load
+  });
+  
   // trigger scroll on pageload after small delay (to make sure everything is bound properly)
   setTimeout(function() {$(window).trigger("scroll")}, 100);
 }
