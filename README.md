@@ -18,3 +18,17 @@ Instructions
 
 Install plugin to mods/lazy_load
 Enable plugin from the administration plugin page
+
+
+Problems to look for:
+
+1. Columns where images don't load until you scroll to the bottom of first column.
+2. Elements with internal scroll bars
+
+If images don't load properly in these elements, enter jquery selectors for these elements into the plugin settings.
+One selector per line.
+
+eg.
+
+#wire_div1
+#wire_div2

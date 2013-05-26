@@ -2,6 +2,10 @@
 
 x.x (mm/dd/yyyy):
 
+1.5 (05/25/2013):
+ - adds plugin settings for custom jquery selectors
+ - fixes for side-by-side columns, internally scrolling elements
+
 1.4 (03/14/2013):
  - updates lazyload script to 1.8.4
  - prevents lazyload from occurring on iOS (scrolling issue in iOS6)
