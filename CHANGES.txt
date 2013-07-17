@@ -2,6 +2,9 @@
 
 x.x (mm/dd/yyyy):
 
+1.6 (07/16/2013):
+ - fix jump-to-top issue in IE/Chrome on ajax complete or internal scroll
+
 1.5 (05/25/2013):
  - adds plugin settings for custom jquery selectors
  - fixes for side-by-side columns, internally scrolling elements

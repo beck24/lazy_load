@@ -33,11 +33,6 @@ elgg.lazy_load.init = function() {
 	  failure_limit: 10
   });
 
-  // trigger the scroll event to force some browsers to detect images in the viewport
-  $(window).bind('resize', function() { 
-	$(this).trigger('scroll'); 
-  });
-  
   <?php
   
   // if there are columns being used, the columns further down the DOM don't work properly
@@ -58,14 +53,14 @@ elgg.lazy_load.init = function() {
 	}
 	
 	// if a div is set to overflow: auto, or some other scrolling method, we need to
-	// trigger the window scroll event when that gets scrolled to allow images in that
+	// trigger the window resize event when that gets scrolled to allow images in that
 	// div to lazy_load
 	$selectors = implode(', ', $cs);
 	
 	?>
 	
 	$("<?php echo $selectors; ?>").scroll(function() {
-		$(window).trigger('scroll');
+		$(window).trigger('resize');
 	});
 	
 	<?php
@@ -73,11 +68,11 @@ elgg.lazy_load.init = function() {
   ?>
   
   $(document).ajaxComplete(function(e) {
-    setTimeout(function() {$(window).trigger("scroll")}, 100); //trigging the window scroll event forces $.lazyload to look for new images to load
+    setTimeout(function() {$(window).trigger("resize")}, 100); //trigging the window resize event forces $.lazyload to look for new images to load
   });
   
   // trigger scroll on pageload after small delay (to make sure everything is bound properly)
-  setTimeout(function() {$(window).trigger("scroll")}, 100);
+  setTimeout(function() {$(window).trigger("resize")}, 100);
 }
 
 elgg.register_hook_handler('init', 'system', elgg.lazy_load.init);
